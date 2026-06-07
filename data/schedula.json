@@ -1,0 +1,55 @@
+{
+  "tasks": [],
+  "history": [],
+  "settings": {
+    "theme": "dark",
+    "daily_goal": 5,
+    "work_start": "09:00",
+    "work_end": "18:00",
+    "xp_total": 0,
+    "level": 1
+  },
+  "habits": [],
+  "focus_sessions": [
+    {
+      "id": "12df5abf-5888-4da2-8dad-ffea8eba5c90",
+      "task_id": "",
+      "task_title": "",
+      "start_time": "2026-05-16T15:57:34.471273",
+      "end_time": "2026-05-16T15:57:34.471273",
+      "duration_minutes": 90,
+      "session_type": "deep_work",
+      "completed": true,
+      "notes": ""
+    }
+  ],
+  "academic": {
+    "semester_start": "",
+    "semester_end": "",
+    "semester_name": "Semester",
+    "week_a_label": "Week A",
+    "week_b_label": "Week B",
+    "first_week_type": "A",
+    "subjects": [],
+    "timetable": {
+      "A": {
+        "Monday": [],
+        "Tuesday": [],
+        "Wednesday": [],
+        "Thursday": [],
+        "Friday": [],
+        "Saturday": [],
+        "Sunday": []
+      },
+      "B": {
+        "Monday": [],
+        "Tuesday": [],
+        "Wednesday": [],
+        "Thursday": [],
+        "Friday": [],
+        "Saturday": [],
+        "Sunday": []
+      }
+    }
+  }
+}
