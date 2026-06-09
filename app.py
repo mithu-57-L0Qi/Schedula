@@ -109,14 +109,14 @@ st.markdown("""
 
 
 NAV_PAGES = [
-    ("Dashboard",  "🏠"),
-    ("Tasks",      "✅"),
-    ("Calendar",   "📅"),
-    ("Focus",      "⏱"),
-    ("Habits",     "💊"),
-    ("Academic",   "🎓"),
-    ("Analytics",  "📊"),
-    ("Settings",   "⚙"),
+    ("Dashboard", ""),
+    ("Tasks", ""),
+    ("Calendar", ""),
+    ("Focus", ""),
+    ("Habits", ""),
+    ("Academic", ""),
+    ("Analytics", ""),
+    ("Settings", ""),
 ]
 
 
