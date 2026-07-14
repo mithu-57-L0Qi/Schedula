@@ -1,0 +1,81 @@
+{
+  "tasks": [],
+  "history": [],
+  "habits": [],
+  "focus_sessions": [],
+  "music_library": {
+    "songs": [],
+    "playlists": [
+      "All Songs",
+      "Favorites"
+    ]
+  },
+  "academic": {
+    "semester_start": "",
+    "semester_end": "",
+    "semester_name": "Semester",
+    "week_a_label": "Week A",
+    "week_b_label": "Week B",
+    "first_week_type": "A",
+    "subjects": [],
+    "timetable": {
+      "A": {
+        "Monday": [],
+        "Tuesday": [],
+        "Wednesday": [],
+        "Thursday": [],
+        "Friday": [],
+        "Saturday": [],
+        "Sunday": []
+      },
+      "B": {
+        "Monday": [],
+        "Tuesday": [],
+        "Wednesday": [],
+        "Thursday": [],
+        "Friday": [],
+        "Saturday": [],
+        "Sunday": []
+      }
+    }
+  },
+  "settings": {
+    "theme": "dark",
+    "daily_goal": 5,
+    "work_start": "09:00",
+    "work_end": "18:00",
+    "xp_total": 0,
+    "level": 1
+  },
+  "habits_v4": [
+    {
+      "id": "f17151f3-616",
+      "name": "running",
+      "identity": "athelete",
+      "why": "to improve my body , legs",
+      "cue_type": "after_habit",
+      "cue_value": "After Waking Up",
+      "level": 1,
+      "current_target": 5.0,
+      "target_unit": "minutes",
+      "target_unit_custom": "",
+      "initial_target": 5.0,
+      "growth_enabled": true,
+      "growth_increment": 5.0,
+      "growth_interval": 5,
+      "max_target": 30.0,
+      "growth_paused": false,
+      "pause_reason": "",
+      "pause_end_date": "",
+      "completions_since_last_growth": 0,
+      "growth_history": [],
+      "completion_history": [],
+      "current_streak": 0,
+      "longest_streak": 0,
+      "total_completions": 0,
+      "created_at": "2026-07-09T21:42:32.058265",
+      "updated_at": "2026-07-09T21:42:32.058265",
+      "archived": false
+    }
+  ]
+}

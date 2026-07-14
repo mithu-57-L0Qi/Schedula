@@ -13,6 +13,18 @@ TASK_TYPES = ["task", "assignment", "exam", "lab", "lecture", "focus", "habit_ta
 CYCLES = ["both", "A", "B", "none"]
 HABIT_CATEGORIES = ["health", "study", "fitness", "mindfulness", "social", "productivity", "other"]
 
+# Habit levels based on total_completions
+HABIT_LEVEL_THRESHOLDS = {"atom": 0, "molecule": 7, "compound": 30, "big_habit": 100}
+HABIT_LEVEL_LABELS = {
+    "atom":      "⚛ Atom",
+    "molecule":  "🔬 Molecule",
+    "compound":  "🧪 Compound",
+    "big_habit": "💎 Big Habit",
+}
+HABIT_LEVEL_COLORS = {
+    "atom": "#6B7280", "molecule": "#10B981", "compound": "#3B82F6", "big_habit": "#F59E0B",
+}
+
 
 def _now() -> str:
     return datetime.now().isoformat()
@@ -20,6 +32,16 @@ def _now() -> str:
 
 def _new_id() -> str:
     return str(uuid.uuid4())
+
+
+def get_habit_level_key(total_completions: int) -> str:
+    if total_completions >= 100:
+        return "big_habit"
+    if total_completions >= 30:
+        return "compound"
+    if total_completions >= 7:
+        return "molecule"
+    return "atom"
 
 
 @dataclass
@@ -61,16 +83,44 @@ class FocusSession:
     start_time: str = field(default_factory=_now)
     end_time: str = ""
     duration_minutes: int = 0
-    session_type: str = "pomodoro"   # pomodoro | deep_work | custom
+    session_type: str = "pomodoro"       # pomodoro | deep_work | custom | break
     completed: bool = False
     notes: str = ""
+    # Focus 2.0 fields
+    pause_count: int = 0
+    total_pause_seconds: int = 0
+    mood_before: int = 0                 # 1–5; 0 = not set
+    mood_after: int = 0
+    distraction_count: int = 0
+    music_enabled: bool = False
+    playlist_used: str = ""
+    song_played: str = ""
 
     def to_dict(self) -> dict:
         return asdict(self)
 
     @classmethod
     def from_dict(cls, d: dict) -> "FocusSession":
-        return cls(**{k: v for k, v in d.items() if k in cls.__dataclass_fields__})
+        valid = set(cls.__dataclass_fields__.keys())
+        filtered = {k: v for k, v in d.items() if k in valid}
+        return cls(**filtered)
+
+
+@dataclass
+class WorkbookEntry:
+    id: str = field(default_factory=_new_id)
+    date: str = field(default_factory=_now)
+    content: str = ""
+    mood: int = 3                        # 1–5
+    entry_type: str = "reflection"       # reflection | goal | achievement | struggle
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "WorkbookEntry":
+        valid = set(cls.__dataclass_fields__.keys())
+        return cls(**{k: v for k, v in d.items() if k in valid})
 
 
 @dataclass
@@ -80,10 +130,16 @@ class Habit:
     description: str = ""
     category: str = "other"
     icon: str = "✦"
-    frequency: str = "daily"          # daily | weekdays | weekly
+    frequency: str = "daily"            # daily | weekdays | weekly
     created_at: str = field(default_factory=_now)
-    completions: dict = field(default_factory=dict)  # {"YYYY-MM-DD": True}
+    completions: dict = field(default_factory=dict)   # {"YYYY-MM-DD": True}
     archived: bool = False
+    # Upgrade 1 — richer analytics data
+    identity_statement: str = ""         # "I am someone who…"
+    notes: str = ""
+    workbook: list = field(default_factory=list)       # list of WorkbookEntry dicts
+    best_streak: int = 0                 # cached; recomputed and stored on completion
+    total_completions: int = 0           # cached count
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -93,6 +149,11 @@ class Habit:
         valid = set(cls.__dataclass_fields__.keys())
         filtered = {k: v for k, v in d.items() if k in valid}
         filtered.setdefault("completions", {})
+        filtered.setdefault("workbook", [])
+        filtered.setdefault("identity_statement", "")
+        filtered.setdefault("notes", "")
+        filtered.setdefault("best_streak", 0)
+        filtered.setdefault("total_completions", 0)
         return cls(**filtered)
 
 
@@ -121,11 +182,10 @@ class Task:
     scheduled_date: str = ""
     start_time: str = ""
     end_time: str = ""
-    # New fields — academic & cognitive classification
-    task_type: str = "task"     # task | assignment | exam | lab | lecture | focus | revision
-    cycle: str = "both"         # A | B | both | none  (academic week cycle)
-    subject: str = ""           # e.g. "Physics", "ML", "Maths"
-    semester: str = ""          # e.g. "Sem 5"
+    task_type: str = "task"
+    cycle: str = "both"
+    subject: str = ""
+    semester: str = ""
 
     def to_dict(self) -> dict:
         return asdict(self)
