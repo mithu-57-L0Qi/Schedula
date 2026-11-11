@@ -5,3 +5,12 @@ __pycache__/
 .env.*
 
 data/*.json
+
+# Python virtual environment
+.venv/
+
+# Local backups
+*.backup
+
+# Temporary MongoDB test
+test_mongodb.py
